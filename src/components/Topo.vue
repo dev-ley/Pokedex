@@ -35,5 +35,12 @@
       behavior: "smooth" // Scroll suave
     });
   };
+
+  const goHomePage = () => {
+  currentPage.value = 'home'; // Define a página atual como "home"
+  updateVisiblePokemons(); // Atualiza os Pokémon exibidos
+  SearchPokemonField.value = ''; // Limpa o campo de pesquisa
+  noResults.value = false; // Reseta o estado de "noResults"
+};
   </script>
     
