@@ -3,6 +3,8 @@ import { onMounted, reactive, ref, computed } from 'vue';
 import ListPokemons from '../components/ListPokemons.vue';
 import CardPokemonSelected from '../components/CardPokemonSelected.vue';
 import Topo from '../components/Topo.vue';
+import PainelHome from '../components/PainelHome.vue';
+
 
 
 let urlBaseSvg = ref("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/");
@@ -12,7 +14,7 @@ let SearchPokemonField = ref("");
 let pokemonSelected = reactive(ref());
 let loading = ref(false);
 let noResults = ref(false); // Variável para controlar se não houve resultados na pesquisa
-const limitToShow = 20; // Limite de Pokémon a serem exibidos por página
+const limitToShow = 15; // Limite de Pokémon a serem exibidos por página
 let observeIntersection = true;
 
 onMounted(() => {
@@ -75,17 +77,11 @@ const selectPokemon = async (pokemon) => {
 
 <template>
   <main>
+
+    <PainelHome />
     <div class="container">
       <div class="row mt-5 d-flex justify-content-center">
         <div class="col-12 col-sm-12 col-md-12 d-flex flex-column align-items-center">
-          <CardPokemonSelected 
-            :name="pokemonSelected?.name"
-            :loading="loading"
-            :index="pokemonSelected?.id"
-            :especie="pokemonSelected?.types[0].type.name"
-            :tipo="pokemonSelected?.types.length > 1 ? pokemonSelected?.types[1].type.name : pokemonSelected?.types[0].type.name"
-            :img="pokemonSelected?.sprites.other.dream_world.front_default"
-          />
 
           <div class="card card-list">
             <div class="card-body row">
@@ -118,13 +114,39 @@ const selectPokemon = async (pokemon) => {
       </div>
     </div>
 
-    <Topo /> 
+    <Topo />       <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+              <CardPokemonSelected 
+              :name="pokemonSelected?.name"
+              :loading="loading"
+              :index="pokemonSelected?.id"
+              :especie="pokemonSelected?.types[0].type.name"
+              :tipo="pokemonSelected?.types.length > 1 ? pokemonSelected?.types[1].type.name : pokemonSelected?.types[0].type.name"
+              :img="pokemonSelected?.sprites.other.dream_world.front_default"
+              />
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
   </main>
 </template>
 
 <style scoped>
 /* Estilos específicos do componente */
 .load-more-trigger {
+  margin-top: -200px;
   height: 10px; /* Altura mínima para o Intersection Observer */
 }
 </style>

@@ -1,15 +1,23 @@
+<script setup>
+
+// Lógica para rolar para o topo da página
+const scrollToTop = () => {
+    window.scrollTo({
+    top: 0,
+    behavior: "smooth" // Scroll suave
+  });
+};
+
+</script>
+  
 <template>
-    <main>
-      <!-- Conteúdo existente do seu componente -->
-    
+    <main>    
       <!-- Botão "Ir para o Topo" -->
-      <button @click="scrollToTop" class="btn btn-primary btn-floating">
-        ^
-      </button>
+      <button @click="scrollToTop" class="btn btn-primary btn-floating">^</button>
     </main>
   </template>
   
-  <style scoped>
+<style scoped>
   /* Estilos específicos do botão */
   .btn-floating {
     position: fixed;
@@ -25,22 +33,4 @@
       right: 10px;
     }
   }
-  </style>
-  
-  <script setup>
-  // Lógica para rolar para o topo da página
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth" // Scroll suave
-    });
-  };
-
-  const goHomePage = () => {
-  currentPage.value = 'home'; // Define a página atual como "home"
-  updateVisiblePokemons(); // Atualiza os Pokémon exibidos
-  SearchPokemonField.value = ''; // Limpa o campo de pesquisa
-  noResults.value = false; // Reseta o estado de "noResults"
-};
-  </script>
-    
+</style>

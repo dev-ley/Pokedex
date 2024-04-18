@@ -1,11 +1,10 @@
-    
 <script setup>
 
 </script>
 
 <template>
     <footer>
-        <div class="bg-primary text-light">
+        <div class="bg-primary text-light text-center d-flex align-items-center justify-content-center">
         Criado por Wesley Rodrigues em {{ new Date().getFullYear() }}
         </div>
     </footer>
@@ -14,8 +13,6 @@
 <style>
     footer > div {
         width: 100%;
-        text-align: center;
-        align-content: center;
         height: 80px;
         font-size: 20px;
     }

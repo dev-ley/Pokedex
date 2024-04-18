@@ -1,10 +1,9 @@
 <script setup>
     const pokemon = defineProps(["name", "urlBaseSvg", "index"])
-
 </script>
 
 <template>
-    <div class="col-6 col-sm-4 col-lg-2">
+    <div class="col-6 col-sm-4 col-lg-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
         <div class="card p-2x mb-3 cardListPokemon">
             <div class="id-icon" >
             <p>{{ pokemon.index }}</p>

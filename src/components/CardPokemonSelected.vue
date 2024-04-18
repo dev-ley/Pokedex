@@ -16,8 +16,8 @@
              :src="pokemon.img"
              alt="Card image cap">
             <img v-else
-            class="card-img-top p-5"
-            src="../assets/favicon.ico"
+            class="img-card card-img-top p-5"
+            src="../assets/pikachu.png"
             alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title text-center"> {{ pokemon.name  }}</h5>
@@ -59,5 +59,10 @@
     }
     .cardListPokemon img:hover {
         padding: 0.1rem;
+    }
+
+    .img-card {
+        width: 100%;
+        border-radius:80px;
     }
 </style>
