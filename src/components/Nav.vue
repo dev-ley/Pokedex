@@ -1,4 +1,12 @@
-<script setup>
+<script >
+export default {
+  methods: {
+    setLocale(locale) {
+      this.$i18n.locale = locale;
+    }
+  }
+
+}
 
 </script>
 
@@ -16,10 +24,14 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="/">Home</a>
+                <a class="nav-link" aria-current="page" href="/">{{$t('nav.home')}}</a>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/about">About</router-link>
+                <div class="m-2">
+                  <button @click="setLocale('pt_BR')">Portugues</button>
+                  <button @click="setLocale('en')">Inglês</button>
+                  <button @click="setLocale('es')">Espanhol</button>
+                </div>  
               </li>
             </ul>
           </div>

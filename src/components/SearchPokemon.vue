@@ -52,7 +52,7 @@ const capitalizeFirstLetter = (text) => {
   
 const fetchAllPokemon = async () => {
   const allPokemon = [];
-  const apiUrl = 'https://pokeapi.co/api/v2/pokemon?limit=340'; // Removendo o offset
+  const apiUrl = 'https://pokeapi.co/api/v2/pokemon?limit=1400';
   
   try {
     const response = await fetch(apiUrl);
@@ -81,32 +81,8 @@ onMounted(async () => {
   await fetchAllPokemon();
 });
 
-
-const selectedLanguage = ref('pt'); // Idioma padrão
-const languages = {
-  pt: 'Português',
-  en: 'English',
-  es: 'Español',
-};
-
-const changeLanguage = (lang) => {
-  selectedLanguage.value = lang;
-};
-
-const getLanguageLabel = (lang) => {
-  return languages[lang] || 'Unknown';
-};
-  
   </script>
 <template>
-    <div>
-      <div class="container d-flex">
-      <button @click="changeLanguage('pt')">Português</button>
-      <button @click="changeLanguage('en')">English</button>
-      <button @click="changeLanguage('es')">Español</button>
-
-    </div>
-    <p>Idioma Selecionado: {{ getLanguageLabel(selectedLanguage) }}</p>
 
         <!-- Exibir informações do Pokémon buscado-->
       <div v-if="pokemonData" class="mt-4">
@@ -133,25 +109,25 @@ const getLanguageLabel = (lang) => {
           </div>
         
         <div class="d-flex flex-wrap">
-          <button type="button" @click="fetchAllPokemon()" class="btn btn-primary m-1">Todos</button>
-          <button type="button" @click="searchByType('normal')" class="btn btn-primary m-1">Normal</button>
-          <button type="button" @click="searchByType('fire')" class="btn btn-primary m-1">Fogo</button>
-          <button type="button" @click="searchByType('water')" class="btn btn-primary m-1">Água</button>
-          <button type="button" @click="searchByType('electric')" class="btn btn-primary m-1">Elétrico</button>
-          <button type="button" @click="searchByType('grass')" class="btn btn-primary m-1">Grama</button>
-          <button type="button" @click="searchByType('ice')" class="btn btn-primary m-1">Gelo</button>
-          <button type="button" @click="searchByType('fighting')" class="btn btn-primary m-1">Lutador</button>
-          <button type="button" @click="searchByType('poison')" class="btn btn-primary m-1">Veneno</button>
-          <button type="button" @click="searchByType('ground')" class="btn btn-primary m-1">Terra</button>
-          <button type="button" @click="searchByType('flying')" class="btn btn-primary m-1">Voador</button>
-          <button type="button" @click="searchByType('psychic')" class="btn btn-primary m-1">Psíquico</button>
-          <button type="button" @click="searchByType('bug')" class="btn btn-primary m-1">Inseto</button>
-          <button type="button" @click="searchByType('rock')" class="btn btn-primary m-1">Pedra</button>
-          <button type="button" @click="searchByType('ghost')" class="btn btn-primary m-1">Fantasma</button>
-          <button type="button" @click="searchByType('dark')" class="btn btn-primary m-1">Sombrio</button>
-          <button type="button" @click="searchByType('steel')" class="btn btn-primary m-1">Aço</button>
-          <button type="button" @click="searchByType('dragon')" class="btn btn-primary m-1">Dragão</button>
-          <button type="button" @click="searchByType('fairy')" class="btn btn-primary m-1">Fada</button>
+          <button type="button" @click="fetchAllPokemon()" class="btn btn-primary m-1">{{ $t('types.todos') }}</button>
+          <button type="button" @click="searchByType('normal')" class="btn btn-primary m-1">{{ $t('types.normal') }}</button>
+          <button type="button" @click="searchByType('fire')" class="btn btn-primary m-1">{{ $t('types.fire') }}</button>
+          <button type="button" @click="searchByType('water')" class="btn btn-primary m-1">{{ $t('types.water') }}</button>
+          <button type="button" @click="searchByType('electric')" class="btn btn-primary m-1">{{ $t('types.electric') }}</button>
+          <button type="button" @click="searchByType('grass')" class="btn btn-primary m-1">{{ $t('types.grass') }}</button>
+          <button type="button" @click="searchByType('ice')" class="btn btn-primary m-1">{{ $t('types.ice') }}</button>
+          <button type="button" @click="searchByType('fighting')" class="btn btn-primary m-1">{{ $t('types.fighting') }}</button>
+          <button type="button" @click="searchByType('poison')" class="btn btn-primary m-1">{{ $t('types.poison') }}</button>
+          <button type="button" @click="searchByType('ground')" class="btn btn-primary m-1">{{ $t('types.ground') }}</button>
+          <button type="button" @click="searchByType('flying')" class="btn btn-primary m-1">{{ $t('types.flying') }}</button>
+          <button type="button" @click="searchByType('psychic')" class="btn btn-primary m-1">{{ $t('types.psychic') }}</button>
+          <button type="button" @click="searchByType('bug')" class="btn btn-primary m-1">{{ $t('types.bug') }}</button>
+          <button type="button" @click="searchByType('rock')" class="btn btn-primary m-1">{{ $t('types.rock') }}</button>
+          <button type="button" @click="searchByType('ghost')" class="btn btn-primary m-1">{{ $t('types.ghost') }}</button>
+          <button type="button" @click="searchByType('dark')" class="btn btn-primary m-1">{{ $t('types.dark') }}</button>
+          <button type="button" @click="searchByType('steel')" class="btn btn-primary m-1">{{ $t('types.steel') }}</button>
+          <button type="button" @click="searchByType('dragon')" class="btn btn-primary m-1">{{ $t('types.dragon') }}</button>
+          <button type="button" @click="searchByType('fairy')" class="btn btn-primary m-1">{{ $t('types.fairy') }}</button>
         </div>
       </form>
     <div>
@@ -184,8 +160,6 @@ const getLanguageLabel = (lang) => {
     
   </div>
     
-
-    </div>
 
   </template>
   

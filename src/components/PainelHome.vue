@@ -1,5 +1,4 @@
-<script setup>
-
+<script >
 
 </script>
 
@@ -7,6 +6,9 @@
   <div class="container pt-5 d-flex justify-content-center ">
     <img class="page" src="../assets/pikachu.png" alt="">
   </div>
+
+ 
+ 
 </template>
 
 
