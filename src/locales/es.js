@@ -1,6 +1,6 @@
 export const es = {
-    salutation: {
-        hello: 'Bienvenido!',
+    nav: {
+        home: 'Bienvenido!',
     },
     types: {
         "todos": "Todo",
