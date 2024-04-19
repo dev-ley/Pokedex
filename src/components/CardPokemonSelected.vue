@@ -1,6 +1,5 @@
 <script setup>
     const pokemon = defineProps(["name", "img", "index", "loading", "especie","tipo", "peso", "altura", "status", "statusInfo"]);
-
 </script>
 
 <template>

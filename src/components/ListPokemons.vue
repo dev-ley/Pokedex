@@ -1,9 +1,8 @@
 <script setup>
-    import { computed } from 'vue';
-    const pokemon = defineProps(["name", "urlBaseSvg", "index"])
-    
-    const formattedName = computed(() => {
-  return pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+import { computed } from 'vue';
+const pokemon = defineProps(["name", "urlBaseSvg", "index"])
+const formattedName = computed(() => {
+return pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
 });
     
 </script>
