@@ -1,77 +1,8 @@
 <script setup>
-import { onMounted, reactive, ref, computed } from 'vue';
-import ListPokemons from '../components/ListPokemons.vue';
-import CardPokemonSelected from '../components/CardPokemonSelected.vue';
-import Topo from '../components/Topo.vue';
-import PainelHome from '../components/PainelHome.vue';
 
-
-
-let urlBaseSvg = ref("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/");
-let allPokemons = reactive(ref([]));
-let pokemons = ref([]);
-let SearchPokemonField = ref("");
-let pokemonSelected = reactive(ref());
-let loading = ref(false);
-let noResults = ref(false); // Variável para controlar se não houve resultados na pesquisa
-const limitToShow = 15; // Limite de Pokémon a serem exibidos por página
-let observeIntersection = true;
-
-onMounted(() => {
-  fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
-    .then(res => res.json())
-    .then(res => {
-      allPokemons.value = res.results;
-      updateVisiblePokemons();
-    });
-
-  const observer = new IntersectionObserver((entries) => {
-    if (observeIntersection && entries[0].isIntersecting) {
-      loadMorePokemons();
-    }
-  }, { threshold: 0.5 });
-  observer.observe(document.querySelector('.load-more-trigger'));
-});
-
-const updateVisiblePokemons = () => {
-  pokemons.value = allPokemons.value.slice(0, limitToShow);
-};
-
-const loadMorePokemons = () => {
-  pokemons.value = allPokemons.value.slice(0, pokemons.value.length + limitToShow);
-};
-
-const searchPokemon = (event) => {
-  event.preventDefault();
-  observeIntersection = false; // Impede a renderização do Intersection Observer
-  const searchText = SearchPokemonField.value.trim().toLowerCase();
-  if (searchText === '') {
-    updateVisiblePokemons();
-    return;
-  }
-  const filteredPokemons = allPokemons.value.filter(pokemon => {
-    const nameMatches = pokemon.name.toLowerCase().includes(searchText);
-    const idMatches = pokemon.url.split("/").reverse()[1].includes(searchText); // Obtém o número do URL
-    return nameMatches || idMatches;
-  });
-  if (filteredPokemons.length === 0) {
-    noResults.value = true; // Nenhum Pokémon encontrado
-  } else {
-    noResults.value = false;
-    pokemons.value = filteredPokemons;
-  }
-};
-
-const selectPokemon = async (pokemon) => {
-  loading.value = true;
-  await fetch(pokemon.url)
-    .then(res => res.json())
-    .then(res => pokemonSelected.value = res)
-    .catch(err => alert(err))
-    .finally(() => {
-      loading.value = false;
-    });
-};
+import PainelHome from '../components/PainelHome.vue'
+import SearchPokemon from '../components/SearchPokemon.vue'
+import Topo from '../components/Topo.vue'
 
 </script>
 
@@ -79,74 +10,58 @@ const selectPokemon = async (pokemon) => {
   <main>
 
     <PainelHome />
-    <div class="container">
-      <div class="row mt-5 d-flex justify-content-center">
-        <div class="col-12 col-sm-12 col-md-12 d-flex flex-column align-items-center">
-
-          <div class="card card-list">
-            <div class="card-body row">
-              <form @submit="searchPokemon">
-                <label for="SearchPokemonField" class="form-label">Pesquisar</label>
-                <div class="mb-3 d-flex">
-                  <input v-model.trim="SearchPokemonField" type="text" class="form-control" id="SearchPokemonField" placeholder="Pesquisar..." required>
-                  <button type="submit" class="btn btn-primary">Buscar</button>
-                </div>
-              </form>
-
-              <div v-if="noResults" class="alert alert-danger" role="alert">
-                Nenhum resultado encontrado. 
-              </div>
-
-              <ListPokemons v-for="pokemon in pokemons" :key="pokemon.name"
-                :name="pokemon.name"
-                :urlBaseSvg="urlBaseSvg + pokemon.url.split('/')[6] +  '.png'"
-                @click="selectPokemon(pokemon)"
-              />
-
-              <!-- Elemento para o Intersection Observer -->
-              <div class="load-more-trigger"></div>
-              <div v-if="loading">
-                <p>Carregando...</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <Topo />       <!-- Modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body d-flex justify-content-center">
-              <CardPokemonSelected 
-              :name="pokemonSelected?.name"
-              :loading="loading"
-              :index="pokemonSelected?.id"
-              :especie="pokemonSelected?.types[0].type.name"
-              :tipo="pokemonSelected?.types.length > 1 ? pokemonSelected?.types[1].type.name : pokemonSelected?.types[0].type.name"
-              :img="pokemonSelected?.sprites.other.dream_world.front_default"
-              />
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <SearchPokemon />
+     <div class="container d-flex"></div>
+    <Topo /> 
+    
   </main>
 </template>
 
 <style scoped>
-/* Estilos específicos do componente */
-.load-more-trigger {
-  margin-top: -200px;
-  height: 10px; /* Altura mínima para o Intersection Observer */
-}
+
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Modal -->
+<!--    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-xl" >
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body d-flex justify-content-center">
+      <CardPokemonSelected 
+        :name="pokemonSelected?.name"
+        :loading="loading"
+        :index="pokemonSelected?.id"
+        :especie="pokemonSelected?.types[0].type.name"
+        :tipo="pokemonSelected?.types.length > 1 ? pokemonSelected?.types[1].type.name : pokemonSelected?.types[0].type.name"
+        :img="pokemonSelected?.sprites.other.dream_world.front_default"
+        :peso="pokemonSelected?.weight"
+        :altura="pokemonSelected?.height"
+        />
+    </div>
+
+    <div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>-->
