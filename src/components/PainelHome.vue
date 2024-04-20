@@ -1,4 +1,5 @@
-<script >
+<script setup>
+
 
 </script>
 
@@ -7,8 +8,7 @@
     <img class="page" src="../assets/pikachu.png" alt="">
   </div>
 
- 
- 
+  
 </template>
 
 

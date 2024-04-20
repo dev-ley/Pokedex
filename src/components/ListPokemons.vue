@@ -1,10 +1,5 @@
 <script setup>
-import { computed } from 'vue';
-const pokemon = defineProps(["name", "urlBaseSvg", "index"])
-const formattedName = computed(() => {
-return pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
-});
-    
+    const pokemon = defineProps(["name", "urlBaseSvg", "index"])
 </script>
 
 <template>
@@ -17,7 +12,7 @@ return pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
         </div>
         </div>
             <img :src="urlBaseSvg" class="card-img-top" alt="">
-            <strong class="text-center">{{ formattedName }}</strong> 
+            <p class="text-center">{{ pokemon.name }}</p>
         </div>
     </div>
 </template>
