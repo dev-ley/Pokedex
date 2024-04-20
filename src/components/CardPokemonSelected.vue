@@ -1,12 +1,12 @@
 <script setup>
-    const pokemon = defineProps(["name", "img", "index", "loading", "especie","tipo", "sprites","sprites1","sprites2","sprites3","sprites4","sprites5","sprites6","sprites7","sprites8","sprites9","sprites10","sprites11","sprites12","sprites13","sprites14","sprites15","sprites16","sprites17","sprites18","sprites19","sprites20","sprites21","sprites22", "ataque", "ataque2", "ataque3", "gameindex", "version", "evo1","evo2","evo3"]);
+    const pokemon = defineProps(["name", "img", "index", "loading", "especie","tipo", "sprites","sprites1","sprites2","sprites3","sprites4","sprites5","sprites6","sprites7","sprites8","sprites9","sprites10","sprites11","sprites12","sprites13","sprites14","sprites15","sprites16","sprites17","sprites18","sprites19","sprites20","ataque", "ataque2", "ataque3", "gameindex", "version", "evo1","evo2","evo3", "nomeIndex"]);
 </script>
 <template>
     <div class="container d-flex flex-column mb-3">
         <div class="d-flex flex-column mb-3">
             <div class="card cardListPokemon" :class="loading ? '' : 'animate__animated animate__flipInY'">
                 <div class="id-icon">
-                    <p>N° {{ pokemon.index }}</p>
+                    <p>ID: {{ pokemon.index }}</p>
                     <div class="icon">
                         <img src="../assets/favicon.ico" alt=""><img src="../assets/favicon.ico" alt="">
                     </div>
@@ -14,62 +14,80 @@
                 <img v-if="pokemon.name" class="card-img-top p-5" :src="pokemon.img" alt="Card image cap">
                 <img v-else class="img-card card-img-top p-5" src="../assets/pikachu.png" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title text-center"> {{ pokemon.name }}</h5>
-                    <p>tipo {{ pokemon.tipo }}</p>
-                    <p>espécie {{ pokemon.especie }}</p>
+                    <h5 class="card-title text-center">Nome: {{ pokemon.name }}</h5>
+                    <p>Tipo: {{ pokemon.tipo }}</p>
+                    <p>Espécie:  {{ pokemon.especie }}</p>
                 </div>
-                <div id="carouselExample" class="carousel slide">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img :src="pokemon.sprites" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites1" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites2" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites3" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites4" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites5" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites6" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites7" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites12" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites13" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites14" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites15" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites16" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites17" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites18" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites22" alt="">
-                        </div>
-                        <div class="carousel-item">
-                            <img :src="pokemon.sprites21" alt="">
+
+
+                <div class="card">
+                    <div id="carouselExample" class="carousel slide">
+                        <div class="carousel-inner">
+                            <div  v-if="pokemon.sprites != null"    class="carousel-item active">
+                                <img :src="pokemon.sprites"     alt="">
+                            </div>
+                            <div  v-if="pokemon.sprites1 != null"   class="carousel-item">
+                                <img  :src="pokemon.sprites1"  alt="">
+                            </div>
+                            <div  v-if="pokemon.sprites2 != null"   class="carousel-item">
+                                <img  :src="pokemon.sprites2"  alt="">
+                            </div>
+
+                            <div  v-if="pokemon.sprites3 != null"   class="carousel-item">
+                                <img  :src="pokemon.sprites3"   alt="">
+                            </div>
+                            <div  v-if="pokemon.sprites4 != null"   class="carousel-item">
+                                <img  :src="pokemon.sprites4"   alt="">
+                            </div>
+                            <div  v-if="pokemon.sprites5 != null"   class="carousel-item">
+                                <img  :src="pokemon.sprites5"    alt="">
+                            </div>
+                            <div  v-if="pokemon.sprites6 != null"   class="carousel-item">
+                                <img  :src="pokemon.sprites6"    alt="">
+                            </div>
+                            <div  v-if="pokemon.sprites7 != null"   class="carousel-item">
+                                <img  :src="pokemon.sprites7"    alt="">
+                            </div>
+                            <div  v-if="pokemon.sprites12 != null"  class="carousel-item">
+                                <img   :src="pokemon.sprites12" alt="">
+                            </div>
+                            <div  v-if="pokemon.sprites13 != null"  class="carousel-item">
+                                <img   :src="pokemon.sprites13" alt="">
+                            </div>
+                            <div  v-if="pokemon.sprites14 != null"  class="carousel-item">
+                                <img   :src="pokemon.sprites14" alt="">
+                            </div>
+                            <div  v-if="pokemon.sprites15 != null"  class="carousel-item">
+                                <img   :src="pokemon.sprites15" alt="">
+                            </div>
+                            <div  v-if="pokemon.sprites16 != null"  class="carousel-item">
+                                <img   :src="pokemon.sprites16" alt="">
+                            </div>
+                            <div  v-if="pokemon.sprites17 != null"  class="carousel-item">
+                                <img   :src="pokemon.sprites17" alt="">
+                            </div>
+                            <div  v-if="pokemon.sprites18 != null"  class="carousel-item">
+                                <img   :src="pokemon.sprites18" alt="">
+                            </div>  
+                            <div  v-if="pokemon.sprite19 != null"   class="carousel-item">
+                                <img  :src="pokemon.sprites19"  alt="">
+                            </div>
+                            <div  v-if="pokemon.sprites20 != null"  class="carousel-item">
+                                <img   :src="pokemon.sprites20" alt="">
+                            </div>
+
+                            <div v-if="pokemon.sprites8 != null"  class="carousel-item active">
+                                <img :src="pokemon.sprites8"  alt="">
+                            </div>
+                            <div v-if="pokemon.sprites9 != null"   class="carousel-item">
+                                <img :src="pokemon.sprites9"   alt="">
+                            </div>
+                            <div v-if="pokemon.sprites10 != null"  class="carousel-item">
+                                <img :src="pokemon.sprites10"  alt="">
+                            </div>
+                            <div v-if="pokemon.sprites11 != null"  class="carousel-item">
+                                <img :src="pokemon.sprites11"  alt="">
+                            </div>
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
@@ -83,33 +101,29 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-                <div>
-                    Passe para o Lado
-                    <img :src="pokemon.sprites8" alt="">
-                    <img :src="pokemon.sprites9" alt="">
-                    <img :src="pokemon.sprites10" alt="">
-                    <img :src="pokemon.sprites11" alt="">
-                    <img :src="pokemon.sprites19" alt="">
-                    <img :src="pokemon.sprites20" alt="">
-                </div>
+
+
             </div>
             <div class="card d-flex">
-                <div>
-                    <h3>Movimenos de ataque</h3>
-                    <p>{{ pokemon.ataque }}</p>
-                    <p>{{ pokemon.ataque2 }}</p>
-                    <p>{{ pokemon.ataque3 }}</p>
+                <div class="card text-center">
+                    <ul>Movimenos de ataque</ul>
+                    <li v-if="pokemon.ataque">{{ pokemon.ataque }}</li>
+                    <li v-if="pokemon.ataque2">{{ pokemon.ataque2 }}</li>
+                    <li v-if="pokemon.ataque3">{{ pokemon.ataque3 }}</li>
                 </div>
-                <div>
+                <div class="card text-center">
                     <h3>game index</h3>
                     <p>index {{ pokemon.gameindex }} na versão {{ pokemon.version }}</p>
                 </div>
-                <div>
+                <div class="card text-center" >
                     <h3>Evolução</h3>
-                    <div>
+                    <div class="d-flex ">
                     <p>{{ evo1 }}</p>
+                    <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.nomeIndex}.png`" alt="">
                     <p>{{ evo2 }}</p>
+                    <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.nomeIndex}.png`" alt="">
                     <p>{{ evo3 }}</p>
+                    <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.nomeIndex}.png`" alt="">
                     </div>
                 </div>
                         </div>

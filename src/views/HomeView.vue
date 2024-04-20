@@ -5,13 +5,9 @@ import CardPokemonSelected from '../components/CardPokemonSelected.vue';
 import Topo from '../components/Topo.vue';
 import PainelHome from '../components/PainelHome.vue';
 
-
-
-
 let urlBaseSvg = ref("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/");
 let allPokemons = reactive(ref([]));
 let pokemons = ref([]);
-
 let SearchPokemonField = ref("");
 let pokemonSelected = reactive(ref());
 let loading = ref(false);
@@ -19,35 +15,10 @@ let noResults = ref(false); // Variável para controlar se não houve resultados
 const limitToShow = 15; // Limite de Pokémon a serem exibidos por página
 let observeIntersection = true;
 
-
 const pokemonList = ref([]);
 const selectedType = ref(''); // Variável reativa para armazenar o tipo selecionado
 const evolutionInfo = ref(null); // Variável reativa para armazenar as informações de evolução
 
-const searchByType = async (type) => {
-  selectedType.value = type; // Atualiza o tipo selecionado
-
-  try {
-    const response = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
-    const data = await response.json();
-    
-    const pokemonDetails = await Promise.all(data.pokemon.map(async (pokemon) => {
-      const pokemonResponse = await fetch(pokemon.pokemon.url);
-      const pokemonData = await pokemonResponse.json();
-      return {
-        name: pokemonData.name,
-        image: pokemonData.sprites.front_default
-      };
-    }));
-
-
-
-    pokemonList.value = pokemonDetails; // Atualiza a lista de Pokémon com base no tipo selecionado
-    console.log(pokemonList.value);
-  } catch (error) {
-    console.error("Erro ao buscar Pokémon por tipo:", error);
-  }
-};
 
 onMounted(() => {
   fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
@@ -55,24 +26,25 @@ onMounted(() => {
     .then(res => {
       allPokemons.value = res.results;
       updateVisiblePokemons();
+      console.log(allPokemons.value)
       
     });
 
-  const observer = new IntersectionObserver((entries) => {
-    if (observeIntersection && entries[0].isIntersecting) {
-      loadMorePokemons();
-    }
-  }, { threshold: 0.5 });
-  observer.observe(document.querySelector('.load-more-trigger'));
-});
+      const observer = new IntersectionObserver((entries) => {
+        if (observeIntersection && entries[0].isIntersecting) {
+          loadMorePokemons();
+        }
+      }, { threshold: 0.5 });
+      observer.observe(document.querySelector('.load-more-trigger'));
+    });
 
-const updateVisiblePokemons = () => {
-  pokemons.value = allPokemons.value.slice(0, limitToShow);
-};
+    const updateVisiblePokemons = () => {
+      pokemons.value = allPokemons.value.slice(0, limitToShow);
+    };
 
-const loadMorePokemons = () => {
-  pokemons.value = allPokemons.value.slice(0, pokemons.value.length + limitToShow);
-};
+    const loadMorePokemons = () => {
+      pokemons.value = allPokemons.value.slice(0, pokemons.value.length + limitToShow);
+    };
 
 const searchPokemon = (event) => {
   event.preventDefault();
@@ -95,6 +67,34 @@ const searchPokemon = (event) => {
   }
 };
 
+
+
+const searchByType = async (type) => {
+  selectedType.value = type; // Atualiza o tipo selecionado
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
+    const data = await response.json();
+    
+    const pokemonDetails = await Promise.all(data.pokemon.map(async (pokemon) => {
+      const pokemonResponse = await fetch(pokemon.pokemon.url);
+      const pokemonData = await pokemonResponse.json();
+      return {
+        name: pokemonData.name,
+        image: pokemonData.sprites.front_default
+      };
+    }));
+
+    pokemonList.value = pokemonDetails;
+    allPokemons = pokemonList.value;
+    // Atualiza a lista de Pokémon com base no tipo selecionado
+    console.log(allPokemons);
+  } catch (error) {
+    console.error("Erro ao buscar Pokémon por tipo:", error);
+  }
+  
+};
+
+
 const selectPokemon = async (pokemon) => {
   loading.value = true;
   const pokemonId = pokemon.url.split("/").reverse()[1]; // Obtém o ID do Pokémon a partir da URL
@@ -105,19 +105,25 @@ const selectPokemon = async (pokemon) => {
     const pokemonData = await pokemonResponse.json();
     pokemonSelected.value = pokemonData; // Atualiza o objeto pokemonSelected
 
-    // Segundo fetch para obter as informações de evolução do Pokémon
-    const evolutionResponse = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${pokemonId}`);
+    
+    // Segundo fetch para obter as informações da espécie do Pokémon
+    const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`);
+    const speciesData = await speciesResponse.json();
+    console.log("Informações da espécie:", speciesData);
+    const speciesId = speciesData.evolution_chain.url.split("/").reverse()[1];
+    console.log("Nome da ID espécie:", speciesId);
+
+    // Terceiro fetch para obter as informações de evolução do Pokémon
+    const evolutionResponse = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${speciesId}`);
     const evolutionData = await evolutionResponse.json();
     console.log("Informações de evolução:", evolutionData);
     evolutionInfo.value = evolutionData;
-    // Aqui você pode fazer o que precisa com as informações de evolução
   } catch (error) {
-    console.error("Erro ao buscar informações de evolução:", error);
+    console.error("Erro ao buscar informações:", error);
   } finally {
     loading.value = false;
   }
 };
-
 </script>
 
 <template>
@@ -184,7 +190,7 @@ const selectPokemon = async (pokemon) => {
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Pokemon </h5>
+              <h5 class="modal-title" id="exampleModalLabel">PokeInfo </h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body d-flex justify-content-center">
@@ -194,41 +200,36 @@ const selectPokemon = async (pokemon) => {
               :index="pokemonSelected?.id"
               :especie="pokemonSelected?.types[0].type.name"
               :tipo="pokemonSelected?.types.length > 1 ? pokemonSelected?.types[1].type.name : pokemonSelected?.types[0].type.name"
-              :img="pokemonSelected?.sprites.other.dream_world.front_default"
-              :sprites="pokemonSelected?.sprites.front_default"
-              :sprites1="pokemonSelected?.sprites.back_default"
-              :sprites2="pokemonSelected?.sprites.front_female"
-              :sprites4="pokemonSelected?.sprites.back_shiny"
-              :sprites5="pokemonSelected?.sprites.back_shiny_female"
-              :sprites7="pokemonSelected?.sprites.front_shiny_female"
-              :sprites21="pokemonSelected?.sprites.front_shiny"
-              :sprite19="pokemonSelected?.sprites.other.dream_world.front_default"
-              :sprite20="pokemonSelected?.sprites.other.dream_world.front_female"
-              :sprites8="pokemonSelected?.sprites.other.home.front_default"
-              :sprites9="pokemonSelected?.sprites.other.home.front_female"
-              :sprites10="pokemonSelected?.sprites.other.home.front_shiny"
-              :sprites11="pokemonSelected?.sprites.other.home.front_shiny_female"
-              :sprites12="pokemonSelected?.sprites.other.showdown.back_default"
-              :sprites13="pokemonSelected?.sprites.other.showdown.back_female"
-              :sprites14="pokemonSelected?.sprites.other.showdown.back_shiny"
-              :sprites15="pokemonSelected?.sprites.other.showdown.front_default"
-              :sprites16="pokemonSelected?.sprites.other.showdown.front_female"
-              :sprites17="pokemonSelected?.sprites.other.showdown.front_shiny"
-              :sprites18="pokemonSelected?.sprites.other.showdown.front_shiny_female"
-              :sprites22="pokemonSelected?.sprites.other.showdown.back_shiny_female"
-              :ataque="pokemonSelected?.abilities[0].ability.name"
-              :ataque2="pokemonSelected?.abilities[1].ability.name"
-              :ataque3="pokemonSelected?.abilities[2]?.ability.name ?? ''"
-              :version="pokemonSelected?.game_indices[0].version.name"
-              :gameindex="pokemonSelected?.game_indices[0].game_index"
-              :evo1="evolutionInfo?.chain.species.name"
-              :evo2="evolutionInfo?.chain.evolves_to[0].species.name"
-              :evo3="evolutionInfo?.chain.evolves_to[0].evolves_to[0].species.name"
-              
-
-              
-
-
+              :img="pokemonSelected?.sprites.other.dream_world.front_default ?? null"
+              :sprites="pokemonSelected?.sprites.front_default ?? null"
+              :sprites1="pokemonSelected?.sprites.back_default ?? null"
+              :sprites3="pokemonSelected?.sprites.back_shiny ?? null"
+              :sprites4="pokemonSelected?.sprites.back_shiny_female ?? null"
+              :sprites5="pokemonSelected?.sprites.front_shiny_female ?? null"
+              :sprites6="pokemonSelected?.sprites.front_shiny ?? null"
+              :sprites7="pokemonSelected?.sprites.other.dream_world.front_default ?? null"
+              :sprites8="pokemonSelected?.sprites.other.dream_world.front_female ?? null"
+              :sprites9="pokemonSelected?.sprites.other.home.front_default ?? null"
+              :sprites10="pokemonSelected?.sprites.other.home.front_shiny ?? null"
+              :sprites11="pokemonSelected?.sprites.other.home.front_female ?? null"
+              :sprites12="pokemonSelected?.sprites.other.home.front_shiny_female ?? null"
+              :sprites13="pokemonSelected?.sprites.other.showdown.back_default ?? null"
+              :sprites14="pokemonSelected?.sprites.other.showdown.back_female ?? null"
+              :sprites15="pokemonSelected?.sprites.other.showdown.back_shiny ?? null"
+              :sprites16="pokemonSelected?.sprites.other.showdown.front_default ?? null"
+              :sprites17="pokemonSelected?.sprites.other.showdown.front_female ?? null"
+              :sprites18="pokemonSelected?.sprites.other.showdown.front_shiny ?? null"
+              :sprites19="pokemonSelected?.sprites.other.showdown.front_shiny_female ?? null"
+              :sprites20="pokemonSelected?.sprites.other.showdown.back_shiny_female ?? null"
+              :ataque="pokemonSelected?.abilities[0]?.ability.name ?? null"
+              :ataque2="pokemonSelected?.abilities[1]?.ability.name ??null"
+              :ataque3="pokemonSelected?.abilities[2]?.ability.name ?? null"
+              :version="pokemonSelected?.game_indices[0]?.version.name ?? null"
+              :gameindex="pokemonSelected?.game_indices[0]?.game_index  ?? null"
+              :evo1="evolutionInfo?.chain.species.name ?? null"
+              :evo2="evolutionInfo?.chain.evolves_to[0]?.species.name ?? null"
+              :evo3="evolutionInfo?.chain.evolves_to[0].evolves_to[0]?.species.name ?? null"
+  
               />
             </div>
 
