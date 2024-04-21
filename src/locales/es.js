@@ -3,7 +3,7 @@ export const es = {
         home: 'Bienvenido!',
     },
     types: {
-        "todos": "Todo",
+        "all": "Todo",
         "normal": "Normal",
         "fire": "Fuego",
         "water": "Agua",

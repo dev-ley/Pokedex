@@ -3,7 +3,7 @@ export const pt_BR = {
             home: 'Bem vindo!',
         },
         types: {
-            "todos": "Todos",
+            "all": "Todos",
             "normal": "Normal",
             "fire": "Fogo",
             "water": "Água",
