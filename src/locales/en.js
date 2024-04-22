@@ -1,26 +1,29 @@
 export const en = {
+    button:{
+        search: 'Search'
+     },
     nav: {
-        home: 'Welcome!',
+      home: 'Welcome!',
     },
-    pokType: {
-        all: "Todo",
-        normal: "Normal",
-        fire: "Fuego",
-        water: "Agua",
-        electric: "Eléctrico",
-        grass: "Planta",
-        ice: "Hielo",
-        fighting: "Lucha",
-        poison: "Veneno",
-        ground: "Tierra",
-        flying: "Volador",
-        psychic: "Psíquico",
-        bug: "Bicho",
-        rock: "Roca",
-        ghost: "Fantasma",
-        dark: "Siniestro",
-        steel: "Acero",
-        dragon: "Dragón",
-        fairy: "Hada"
-    }
-};
+    types: {
+      all: 'All',
+      normal: 'Normal',
+      fire: 'Fire',
+      water: 'Water',
+      electric: 'Electric',
+      grass: 'Grass',
+      ice: 'Ice',
+      fighting: 'Fighting',
+      poison: 'Poison',
+      ground: 'Ground',
+      flying: 'Flying',
+      psychic: 'Psychic',
+      bug: 'Bug',
+      rock: 'Rock',
+      ghost: 'Ghost',
+      dark: 'Dark',
+      steel: 'Steel',
+      dragon: 'Dragon',
+      fairy: 'Fairy',
+    },
+  };

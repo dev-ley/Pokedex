@@ -12,24 +12,27 @@ export default {
 
 <template>
   <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
         <div class="container-fluid">
-          <a class="navbar-brand" href="/">
-            <img src="../assets/favicon.ico" alt="Logo" width="15%"  height="40px" class="d-inline-block align-text-top">
-            Pokedex
-          </a>
-          <div class="m-2">
-                  <button @click="setLocale('pt_BR')">Portugues</button>
-                  <button @click="setLocale('en')">Inglês</button>
-                  <button @click="setLocale('es')">Espanhol</button>
-                </div>  
+          <div class=" d-flex align-items-center">
+            <a class="navbar-brand " href="/"> <img src="../assets/logo.png" alt="Logo"  height="40px" class="">Pokedex</a>
+            <div class="m-2 d-flex" >
+              <div class="bandeira d-flex">
+                <img src="../assets/br.png" alt="Logo"   class="" @click="setLocale('pt_BR')">
+                <img src="../assets/eua.png" alt="Logo"   class="" @click="setLocale('en')">
+                <img src="../assets/es.png" alt="Logo"   class="" @click="setLocale('es')">
+              </div>
+
+            </div>
+            
+            
+          </div>  
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="/">{{$t('nav.home')}}</a>
                 
               </li>
               <li class="nav-item">
@@ -43,5 +46,18 @@ export default {
 </template>
 
 <style>
+.bandeira {
+  display: flex;
+  gap: 10px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
 
+.bandeira > img {
+
+  width: 100%;
+  border-radius: 50%;
+
+}
 </style>

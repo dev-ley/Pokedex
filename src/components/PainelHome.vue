@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <div class="container pt-5 d-flex justify-content-center ">
+  <div class="container pt-5 d-flex align-items-center justify-content-center ">
     <img class="page" src="../assets/pikachu.png" alt="">
   </div>
 
