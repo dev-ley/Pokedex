@@ -132,7 +132,7 @@
             </div>
 
             <div class="card text-center mt-4">
-                <h3>Carrossel Game index</h3>
+                <h3>Game index</h3>
                 <p v-for="(version, index) in pokemon.version" :key="index"> Na versão {{ version.version.name }} o Gameindex é {{ pokemon.gameindex[index].game_index }} </p>     
             </div>
            
