@@ -2,7 +2,7 @@
 import { onMounted, reactive, ref, computed } from 'vue';
 import ListPokemons from '../components/ListPokemons.vue';
 import CardPokemonSelected from '../components/CardPokemonSelected.vue';
-import Topo from '../components/Topo.vue';
+import Topo from '../components/Bnt-Topo.vue';
 import PainelHome from '../components/PainelHome.vue';
 
 let urlBaseSvg = ref("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/");
@@ -12,12 +12,10 @@ let SearchPokemonField = ref("");
 let pokemonSelected = reactive(ref());
 let loading = ref(false);
 let noResults = ref(false); // Variável para controlar se não houve resultados na pesquisa
-const limitToShow = 15; // Limite de Pokémon a serem exibidos por página
 let observeIntersection = true;
 
-
+const limitToShow = 20; // Limite de Pokémon a serem exibidos por página
 const evolutionInfo = ref(null); // Variável reativa para armazenar as informações de evolução
-
 const pokTypes= [
       "all",      
       "normal", 
@@ -44,14 +42,12 @@ const formatFirstLetter = (str) => {
 return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-
 onMounted(() => {
-  fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
+  fetch("https://pokeapi.co/api/v2/pokemon?limit=1301")
     .then(res => res.json())
     .then(res => {
       allPokemons.value = res.results;
       updateVisiblePokemons();
-      console.log(allPokemons.value)
       
     });
 
@@ -85,7 +81,7 @@ const searchPokemon = (event) => {
     return nameMatches || idMatches;
   });
   if (filteredPokemons.length === 0) {
-    noResults.value = true; // Nenhum Pokémon encontrado
+    noResults.value = true; 
   } else {
     noResults.value = false;
     pokemons.value = filteredPokemons;
@@ -93,8 +89,8 @@ const searchPokemon = (event) => {
 };
 
 const searchByType = async (type) => {
- 
-  let pokemonDetails = null;
+  let pokemonDetails = [];
+  
   if ('all'===type){
     observeIntersection = true; 
     updateVisiblePokemons();
@@ -112,9 +108,8 @@ const searchByType = async (type) => {
     });
   }
   
-  
-  if (pokemonDetails.length === 0) {
-    noResults.value = true; // Nenhum Pokémon encontrado
+  if (pokemonDetails.length === null) {
+    noResults.value = true; 
   } else {
     noResults.value = false;
     pokemons.value = pokemonDetails;
@@ -124,25 +119,20 @@ const searchByType = async (type) => {
 const selectPokemon = async (pokemon) => {
   loading.value = true;
   const pokemonId = pokemon.url.split("/").reverse()[1]; // Obtém o ID do Pokémon a partir da URL
-
   try {
     // Primeiro fetch para obter as informações do Pokémon selecionado
     const pokemonResponse = await fetch(pokemon.url);
     const pokemonData = await pokemonResponse.json();
     pokemonSelected.value = pokemonData; // Atualiza o objeto pokemonSelected
-
     
     // Segundo fetch para obter as informações da espécie do Pokémon
     const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`);
     const speciesData = await speciesResponse.json();
-    console.log("Informações da espécie:", speciesData);
     const speciesId = speciesData.evolution_chain.url.split("/").reverse()[1];
-    console.log("Nome da ID espécie:", speciesId);
 
     // Terceiro fetch para obter as informações de evolução do Pokémon
     const evolutionResponse = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${speciesId}`);
     const evolutionData = await evolutionResponse.json();
-    console.log("Informações de evolução:", evolutionData);
     evolutionInfo.value = evolutionData;
   } catch (error) {
     console.error("Erro ao buscar informações:", error);
@@ -154,9 +144,7 @@ const selectPokemon = async (pokemon) => {
 
 <template>
   <main>
-
     <PainelHome />
-
         <div class="container">
         <div class="row mt-5 d-flex justify-content-center">
         <div class="col-12 col-sm-12 col-md-12 d-flex flex-column align-items-center">
@@ -186,8 +174,6 @@ const selectPokemon = async (pokemon) => {
                 :urlBaseSvg="urlBaseSvg + pokemon.url.split('/')[6] +  '.png'"
                 @click="selectPokemon(pokemon)"
               />
-
-
               <!-- Elemento para o Intersection Observer -->
               <div class="load-more-trigger"></div>
               <div v-if="loading">
@@ -199,7 +185,9 @@ const selectPokemon = async (pokemon) => {
       </div>
     </div>
 
-    <Topo />       <!-- Modal -->
+    <Topo />  
+    
+    <!-- Modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -239,16 +227,14 @@ const selectPokemon = async (pokemon) => {
               :ataque="pokemonSelected?.abilities[0]?.ability.name ?? null"
               :ataque2="pokemonSelected?.abilities[1]?.ability.name ??null"
               :ataque3="pokemonSelected?.abilities[2]?.ability.name ?? null"
-              :version="pokemonSelected?.game_indices[0]?.version.name ?? null"
-              :indexArray="pokemonSelected?.game_indices" 
-              :gameindex="pokemonSelected?.game_indices[0]?.game_index  ?? null"
+              :version="pokemonSelected?.game_indices?? null"
+              :gameindex="pokemonSelected?.game_indices  ?? null"
               :evo1="evolutionInfo?.chain.species.name ?? null"
               :evo1Img="evolutionInfo?.chain.species.url.split('/')[6] ?? null"
               :evo2="evolutionInfo?.chain.evolves_to[0]?.species.name ?? null"
               :evo2Img="evolutionInfo?.chain.evolves_to[0]?.species.url.split('/')[6] ?? null"
               :evo3="evolutionInfo?.chain.evolves_to[0].evolves_to[0]?.species.name ?? null"
               :evo3Img="evolutionInfo?.chain.evolves_to[0].evolves_to[0]?.species.url.split('/')[6] ?? null"
-  
               />
             </div>
 
@@ -258,7 +244,6 @@ const selectPokemon = async (pokemon) => {
           </div>
         </div>
       </div>
-
   </main>
 </template>
 

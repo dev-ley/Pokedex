@@ -1,7 +1,7 @@
 export const es = {
-    button:{
-        search: 'Buscar'
-        },
+  button:{
+    search: 'Buscar'
+    },
   nav: {
     home: '¡Bienvenido!',
   },

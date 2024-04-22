@@ -8,7 +8,6 @@
             <div class="id-icon" >
             <p>{{ pokemon.index }}</p>
             <div class="icon" >
-            <img src="../assets/favicon.ico" alt=""><img src="../assets/favicon.ico" alt="">
         </div>
         </div>
             <img :src="urlBaseSvg" class="card-img-top" alt="">

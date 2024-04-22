@@ -1,10 +1,9 @@
 <script setup>
 
-// Lógica para rolar para o topo da página
 const scrollToTop = () => {
     window.scrollTo({
     top: 0,
-    behavior: "smooth" // Scroll suave
+    behavior: "smooth"
   });
 };
 
@@ -12,7 +11,6 @@ const scrollToTop = () => {
   
 <template>
     <main>    
-      <!-- Botão "Ir para o Topo" -->
       <button @click="scrollToTop" class="btn btn-primary btn-floating">^</button>
     </main>
   </template>

@@ -1,8 +1,8 @@
 export const pt_BR = {
     button:{
-       search: 'Buscar'
+        search: 'Buscar'
     },
-    
+
     nav: {
         home: 'Bem vindo!',
     },

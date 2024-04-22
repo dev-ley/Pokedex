@@ -7,9 +7,9 @@
 
   <Nav />
   
-  <div class="main">
-    <router-view></router-view>
-  </div>
+    <div class="main">
+      <router-view></router-view>
+    </div>
 
   <Footer />
 
