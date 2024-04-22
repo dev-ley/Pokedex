@@ -164,10 +164,10 @@ const selectPokemon = async (pokemon) => {
           <div class="card card-list">
             <div class="card-body row">
               <form @submit="searchPokemon">
-                <label for="SearchPokemonField" class="form-label">Pesquisar</label>
+                <label for="SearchPokemonField" class="form-label">{{ $t('button.search')}}</label>
                 <div class="mb-3 d-flex">
-                  <input v-model.trim="SearchPokemonField" type="text" class="form-control" id="SearchPokemonField" placeholder="Pesquisar..." >
-                  <button type="submit" class="btn btn-primary">Buscar</button>
+                  <input v-model.trim="SearchPokemonField" type="text" class="form-control" id="SearchPokemonField" :placeholder="$t('button.search')+ '...'" >
+                  <button type="submit" class="btn btn-primary">{{ $t('button.search')}}</button>
                 </div>
               </form>
               <div class="d-flex flex-wrap mb-4">
