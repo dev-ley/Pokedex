@@ -41,6 +41,10 @@
         "fairy"
 ];
 
+const formatFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 
   onMounted(() => {
     fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
@@ -231,10 +235,11 @@
                 </div>
 
                 <ListPokemons v-for="pokemon in pokemons" :key="pokemon.name"
-                  :name="pokemon.name"
+                  :name="formatFirstLetter(pokemon.name)" 
                   :urlBaseSvg="urlBaseSvg + pokemon.url.split('/')[6] +  '.png'"
                   @click="selectPokemon(pokemon)"
                 />
+
 
                 <!-- Elemento para o Intersection Observer -->
                 <div class="load-more-trigger"></div>
@@ -291,11 +296,11 @@
                 :indexArray="pokemonSelected?.game_indices" 
                 :gameindex="pokemonSelected?.game_indices[0]?.game_index  ?? null"
                 :evo1="evolutionInfo?.chain.species.name ?? null"
-                :evo1Img="`6`"
+                :evo1Img="evolutionInfo?.chain.species.url.split('/')[6] ?? null"
                 :evo2="evolutionInfo?.chain.evolves_to[0]?.species.name ?? null"
-                :evo2Img="evolutionInfo?.chain.evolves_to[0]?.species.url ?? null"
+                :evo2Img="evolutionInfo?.chain.evolves_to[0]?.species.url.split('/')[6] ?? null"
                 :evo3="evolutionInfo?.chain.evolves_to[0].evolves_to[0]?.species.name ?? null"
-                :evo3Img="evolutionInfo?.chain.evolves_to[0]?.species.url ?? null"
+                :evo3Img="evolutionInfo?.chain.evolves_to[0].evolves_to[0]?.species.url.split('/')[6] ?? null"
     
                 />
               </div>

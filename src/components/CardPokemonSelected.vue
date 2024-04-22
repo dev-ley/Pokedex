@@ -2,7 +2,8 @@
     const pokemon = defineProps(["name", "img", "index", "loading", "especie","tipo", "sprites","sprites1","sprites2","sprites3","sprites4","sprites5","sprites6","sprites7","sprites8","sprites9","sprites10","sprites11","sprites12","sprites13","sprites14","sprites15","sprites16","sprites17","sprites18","sprites19","sprites20","ataque", "ataque2", "ataque3", "gameindex", "version", "evo1","evo1Img","evo2","evo2Img","evo3","evo3Img", "indexArray"]);
 
     console.log("AQUIIIII")
-    console.log(pokemon.indexArray)
+    console.log()
+    console.log(pokemon.gameIndex)
 </script>
 <template>
     <div class="container d-flex flex-column mb-3">
