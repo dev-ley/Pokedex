@@ -85,6 +85,7 @@ const searchPokemon = (event) => {
   } else {
     noResults.value = false;
     pokemons.value = filteredPokemons;
+    SearchPokemonField.value = ''
   }
 };
 
@@ -150,11 +151,11 @@ const selectPokemon = async (pokemon) => {
         <div class="col-12 col-sm-12 col-md-12 d-flex flex-column align-items-center">
 
           <div class="card card-list">
-            <div class="card-body row">
+            <div class="card-body row ">
               <form @submit="searchPokemon">
                 <label for="SearchPokemonField" class="form-label">{{ $t('button.search')}}</label>
-                <div class="mb-3 d-flex">
-                  <input v-model.trim="SearchPokemonField" type="text" class="form-control" id="SearchPokemonField" :placeholder="$t('button.search')+ '...'" >
+                <div class="mb-3 d-flex ">
+                  <input v-model.trim="SearchPokemonField" type="text" class="form-control mx-2" id="SearchPokemonField" :placeholder="$t('button.search')+ '...'" >
                   <button type="submit" class="btn btn-primary">{{ $t('button.search')}}</button>
                 </div>
               </form>
